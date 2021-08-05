@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/auth_navigation"
+    app:startDestination="@id/nav_signin">
+
+
+    <fragment
+        android:id="@+id/nav_signin"
+        android:name="com.example.conduit.ui.Auth.SigninFragment"
+        android:label="Signin"
+        tools:layout="@layout/signin_signup_fragment">
+
+
+    </fragment>
+
+    <action
+        android:id="@+id/goToSigninFragment"
+        app:destination="@id/nav_signin"
+        app:popUpTo="@id/auth_navigation"/>
+
+
+
+    <fragment
+        android:id="@+id/nav_signup"
+        android:name="com.example.conduit.ui.Auth.SignupFragment"
+        android:label="Signup"
+        tools:layout="@layout/signin_signup_fragment">
+
+
+    </fragment>
+
+    <action
+        android:id="@+id/goToSignupFragment"
+        app:destination="@id/nav_signup" />
+
+
+
+</navigation>

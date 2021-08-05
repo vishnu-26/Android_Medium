@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/feed_navigation"
+    app:startDestination="@id/nav_gloablFeed">
+
+    <fragment
+        android:id="@+id/nav_gloablFeed"
+        android:name="com.example.conduit.ui.Feed.GlobalFeedFragment"
+        android:label="Global Feed"
+        tools:layout="@layout/global_feed_fragment">
+
+    </fragment>
+
+    <action
+        android:id="@+id/gotToGlobalFeed"
+        app:destination="@id/nav_gloablFeed"
+        app:popUpTo="@id/feed_navigation"/>
+
+
+    <fragment
+        android:id="@+id/nav_myFeed"
+        android:name="com.example.conduit.ui.Feed.MyFeedFragment"
+        android:label="My Feed"
+        tools:layout="@layout/my_feed_fragment">
+
+    </fragment>
+
+    <action
+        android:id="@+id/gotToMyFeed"
+        app:destination="@+id/nav_myFeed"/>
+
+</navigation>
