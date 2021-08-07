@@ -50,27 +50,15 @@ class ProfileFragment : Fragment() {
 
         binding.apply {
             editProfileBtn.setOnClickListener {
-                Log.d("Edit","btn working")
-                val password=evProfileNewPassword.text.toString()
-                val username=evProfileUsername.text.toString().takeIf { it.isNotBlank() }
-                val email  =evProfileEmail.text.toString().takeIf { it.isNotBlank() }
-                val bio =  evProfileBio.text.toString()
-                val imageurl = evProfilePictureUrl.text.toString()
 
-                if (username != null) {
-                    if (email != null) {
-                        if (password != null) {
-                            Log.d("checking editetexts","${imageurl}-${username}-${email}-${bio}-${imageurl}")
-                            authViewModel.updateProfile(
-                                image=imageurl,
-                                username = username,
-                                email= email,
-                                bio=bio,
-                                password = password
-                            )
-                        }
-                    }
-                }
+
+                authViewModel.updateProfile(
+                    image=evProfilePictureUrl.text.toString(),
+                    username = evProfileUsername.text.toString().takeIf { it.isNotBlank() },
+                    email= evProfileEmail.text.toString().takeIf { it.isNotBlank() },
+                    bio= evProfileBio.text.toString(),
+                    password = evProfileNewPassword.text.toString().takeIf { it.isNotBlank() }
+                )
 
             }
         }

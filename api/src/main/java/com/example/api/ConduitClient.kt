@@ -32,17 +32,25 @@ object ConduitClient {
     }
 
     val okHttpClient = OkHttpClient.Builder()
-        .readTimeout(30,TimeUnit.SECONDS)
-        .connectTimeout(30,TimeUnit.SECONDS)
-        .addInterceptor(authInterceptor)
-        .build()
+        .readTimeout(60,TimeUnit.SECONDS)
+        .connectTimeout(60,TimeUnit.SECONDS)
+
 
     val retrofit = Retrofit.Builder()
         .baseUrl("https://conduit.productionready.io/api/")
         .addConverterFactory(MoshiConverterFactory.create())
-//        .client(okHttpClient)
 
 
-    val public_api = retrofit.build().create(ConduitApi::class.java)
-    val auth_api = retrofit.client(okHttpClient).build().create(ConduitAuthAPI::class.java)
+
+    val public_api = retrofit
+        .client(okHttpClient.build())
+        .build()
+        .create(ConduitApi::class.java)
+
+    val auth_api = retrofit
+        .client(okHttpClient.addInterceptor(authInterceptor).build())
+        .build()
+        .create(ConduitAuthAPI::class.java)
 }
+
+

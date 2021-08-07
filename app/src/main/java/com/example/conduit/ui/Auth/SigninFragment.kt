@@ -1,6 +1,8 @@
 package com.example.conduit.ui.Auth
 
+import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,25 +39,41 @@ class SigninFragment:Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding?.apply {
-            authbtn.setOnClickListener {
 
-                val username:String= evemail.text.toString()
-                val password:String= evpassword.text.toString()
+            authbtn.setOnClickListener(object: View.OnClickListener {
 
-                authViewModel.signin(username,password)
+                override fun onClick(v: View?) {
 
+                    val username:String= evemail.text.toString()
+                    val password:String= evpassword.text.toString()
 
-                authViewModel.user.observe({lifecycle}){
-                    it?:let{
-                        AlertDialog.Builder(requireActivity())
-                            .setTitle("Invalid Operation")
-                            .setMessage("Please Enter Valid Username and Password")
-                            .setNegativeButton("Ok",{dialog,id->dialog.cancel()})
-                            .setCancelable(false)
-                            .show()
+                    if(username.isBlank()){
+//                        Log.d("Error","Username Blank ${username}")
+                        evemail.setError("Username Required")
+                    }
+
+                    if(password.isBlank()){
+//                        Log.d("Error","Password Blank ${password}")
+                        evpassword.setError("Password Required")
+                    }
+                    else{
+                        authViewModel.signin(username,password)
+
                     }
                 }
 
+
+
+            })
+
+            authViewModel.user.observe({lifecycle}){
+                it?:let{
+                    AlertDialog.Builder(requireActivity())
+                        .setTitle("Invalid Operation")
+                        .setMessage("Please Enter Valid Username and Password")
+                        .setPositiveButton("OK",DialogInterface.OnClickListener { dialog, which ->})
+                        .show()
+                }
             }
 
 

@@ -11,7 +11,7 @@ import com.example.api.models.Responses.UserResponse
 
 object AuthRepo {
 
-    suspend fun signin(email:String,password:String): UserResponse? {
+    suspend fun signin(email:String?,password:String?): UserResponse? {
         val response = ConduitClient.public_api.signInUser(SigninRequest(SigninCredentials(email, password)))
         return response.body()
     }
@@ -22,7 +22,7 @@ object AuthRepo {
 
     }
 
-    suspend fun updateProfile(image:String,username: String,email: String,bio:String,password: String):UserResponse?{
+    suspend fun updateProfile(image:String,username: String?,email: String?,bio:String,password: String?):UserResponse?{
         val response = ConduitClient.auth_api.updateCurrentUser(UserUpdateRequest(UserUpdateData(bio,email,image,password,username)))
         return response.body()
     }

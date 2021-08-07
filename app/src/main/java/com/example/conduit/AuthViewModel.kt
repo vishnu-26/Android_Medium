@@ -15,7 +15,7 @@ class AuthViewModel : ViewModel() {
     private var _user = MutableLiveData<User?>()
     var user: LiveData<User?> = _user
 
-    fun signin(email:String,password:String) = viewModelScope.launch {
+    fun signin(email:String?,password:String?) = viewModelScope.launch {
         AuthRepo.signin(email, password).let{
             _user.postValue(it?.user)
             ConduitClient.authToken = it?.user?.token
@@ -31,10 +31,10 @@ class AuthViewModel : ViewModel() {
 
     fun updateProfile(
         image:String,
-        username: String,
-        email: String,
+        username: String?,
+        email: String?,
         bio:String,
-        password: String) = viewModelScope.launch{
+        password: String?) = viewModelScope.launch{
 
             AuthRepo.updateProfile(image,username,email,bio,password)?.let {
                 Log.d("Edit","call to viewModel working")
