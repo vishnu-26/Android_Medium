@@ -16,7 +16,7 @@ import com.example.conduit.R
 import com.example.conduit.databinding.FeedItemBinding
 import kotlinx.android.synthetic.main.feed_item.view.*
 
-class FeedAdapter():ListAdapter<Article,FeedAdapter.FeedViewHolder>(
+class FeedAdapter(val onArticleClicked:(slug:String)-> Unit):ListAdapter<Article,FeedAdapter.FeedViewHolder>(
     object : DiffUtil.ItemCallback<Article>(){
         override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
             return oldItem == newItem
@@ -43,7 +43,7 @@ class FeedAdapter():ListAdapter<Article,FeedAdapter.FeedViewHolder>(
 //            parent,
 //            false
 //        )
-        return viewHolder
+
     }
 
     override fun onBindViewHolder(holder: FeedViewHolder, position: Int) {
@@ -59,6 +59,8 @@ class FeedAdapter():ListAdapter<Article,FeedAdapter.FeedViewHolder>(
             tvDate.text = article.createdAt
             tvArticleName.text = article.title
             tvDescription.text = article.description
+
+            rootView.setOnClickListener{onArticleClicked(article.slug)}
         }
 
     }

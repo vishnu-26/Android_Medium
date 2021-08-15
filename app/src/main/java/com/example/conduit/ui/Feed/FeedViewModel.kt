@@ -15,7 +15,7 @@ class FeedViewModel: ViewModel() {
 
     var globalFeed:LiveData<List<Article>> = _globalfeed
     fun fetchGlobalFeed() = viewModelScope.launch{
-        Log.d("Success:","Hello")
+//        Log.d("Success:","Hello")
         ArticlesRepo.getGlobalFeed().body()?.let {
             _globalfeed.postValue(it.articles)
 //            Log.d("Global FEED","${it.articlesCount} articles fetched")
@@ -23,13 +23,16 @@ class FeedViewModel: ViewModel() {
         }
     }
 
-    private val _myfeed = MutableLiveData<List<Article>>()
-    var myFeed:LiveData<List<Article>> = _myfeed
+    private val _myfeed = MutableLiveData<List<Article>?>()
+
+    var myFeed: MutableLiveData<List<Article>?> = _myfeed
     fun fetchMyFeed() = viewModelScope.launch{
         ArticlesRepo.getMyFeed().body()?.let {
             _myfeed.postValue(it.articles)
-            Log.d("My FEED","${it.articlesCount} articles fetched")
-            Log.d("Global Articles","Articles : ${myFeed.value}")
+//            Log.d("My FEED","${it.articlesCount} articles fetched")
+            Log.d("My feed","Articles : ${it}")
+        }?:let{
+            _myfeed.postValue(null)
         }
     }
 

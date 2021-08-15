@@ -9,18 +9,35 @@ import com.example.api.ConduitClient
 import com.example.api.models.Entities.User
 import com.example.conduit.data.AuthRepo
 import kotlinx.coroutines.launch
+import kotlin.properties.Delegates
 
 class AuthViewModel : ViewModel() {
 
     private var _user = MutableLiveData<User?>()
     var user: LiveData<User?> = _user
 
-    fun signin(email:String?,password:String?) = viewModelScope.launch {
-        AuthRepo.signin(email, password).let{
+    private var _signinError = MutableLiveData<String?>()
+    var signinError :LiveData<String?> =_signinError
+
+    fun signin(email:String?,password:String?)= viewModelScope.launch {
+        AuthRepo.signin(email, password)?.let{
+            _signinError.postValue(null)
             _user.postValue(it?.user)
-            ConduitClient.authToken = it?.user?.token
+//            return@launch it?.user
+//            ConduitClient.authToken = it?.user?.token
             Log.d("Success","${ConduitClient.authToken }")
+
+        }?:run{
+            Log.d("signin"," Has been Called")
+            _signinError.postValue("Inavlid Username and Password")
         }
+
+    }
+
+    fun logout()=viewModelScope.launch {
+        Log.d("Success","Logout success")
+        _user.postValue(null)
+
     }
 
     fun signup(email:String,password:String,username:String) = viewModelScope.launch {
@@ -41,5 +58,11 @@ class AuthViewModel : ViewModel() {
                 _user.postValue(it?.user)
 
             }
+    }
+
+    fun getCurrentUser(token:String) = viewModelScope.launch {
+        AuthRepo.getCurrentUser(token).let{
+            _user.postValue(it?.user)
+        }
     }
 }

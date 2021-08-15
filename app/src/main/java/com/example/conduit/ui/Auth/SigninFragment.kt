@@ -13,6 +13,8 @@ import androidx.fragment.app.activityViewModels
 //import com.example.conduit.databinding.SigninFragmentBinding
 import com.example.conduit.databinding.SigninSignupFragmentBinding
 import com.example.conduit.AuthViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.runBlocking
 
 class SigninFragment:Fragment() {
 
@@ -50,6 +52,8 @@ class SigninFragment:Fragment() {
                     if(username.isBlank()){
 //                        Log.d("Error","Username Blank ${username}")
                         evemail.setError("Username Required")
+
+
                     }
 
                     if(password.isBlank()){
@@ -58,26 +62,27 @@ class SigninFragment:Fragment() {
                     }
                     else{
                         authViewModel.signin(username,password)
-
+//                        Log.d("signinError","${authViewModel.signinError}")
                     }
+
                 }
-
-
 
             })
 
-            authViewModel.user.observe({lifecycle}){
-                it?:let{
+            authViewModel.signinError?.observe(viewLifecycleOwner){
+                it?.let{
                     AlertDialog.Builder(requireActivity())
                         .setTitle("Invalid Operation")
-                        .setMessage("Please Enter Valid Username and Password")
+                        .setMessage("${it}")
                         .setPositiveButton("OK",DialogInterface.OnClickListener { dialog, which ->})
                         .show()
                 }
             }
 
-
         }
+
+
+
     }
 
     override fun onDestroyView() {

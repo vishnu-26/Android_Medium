@@ -5,10 +5,13 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.api.models.Entities.Article
+import com.example.conduit.R
 import com.example.conduit.databinding.GlobalFeedFragmentBinding
 
 class GlobalFeedFragment : Fragment(){
@@ -23,8 +26,9 @@ class GlobalFeedFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         viewModel = ViewModelProvider(this).get(FeedViewModel::class.java)
-        feedAdapter= FeedAdapter()
+        feedAdapter= FeedAdapter{viewArticle(it)}
 
         binding = GlobalFeedFragmentBinding.inflate(inflater,container,false)
         binding?.globalFeedRecyclerView?.layoutManager = LinearLayoutManager(context)
@@ -37,6 +41,13 @@ class GlobalFeedFragment : Fragment(){
         }
 
         return binding?.root
+    }
+
+    private fun viewArticle(articleId:String){
+        findNavController().navigate(
+            R.id.feedToArticleFragment,
+            bundleOf("article_id" to articleId)
+        )
     }
 
     override fun onDestroyView() {

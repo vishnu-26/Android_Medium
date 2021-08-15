@@ -7,8 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.api.ConduitClient
 import com.example.api.models.Entities.Article
+import com.example.conduit.R
 import com.example.conduit.databinding.GlobalFeedFragmentBinding
 import com.example.conduit.databinding.MyFeedFragmentBinding
 
@@ -24,20 +27,35 @@ class MyFeedFragment : Fragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewModel = ViewModelProvider(this).get(FeedViewModel::class.java)
-        feedAdapter= FeedAdapter()
 
         binding = MyFeedFragmentBinding.inflate(inflater,container,false)
+        return binding?.root
+
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel = ViewModelProvider(this).get(FeedViewModel::class.java)
+        feedAdapter= FeedAdapter{viewArticle()}
+
         binding?.myFeedRecyclerView?.layoutManager = LinearLayoutManager(context)
         binding?.myFeedRecyclerView?.adapter = feedAdapter
 
         viewModel.fetchMyFeed()
-        viewModel.myFeed.observe({lifecycle}){
+//        Log.d("Dummy","view")
+        viewModel.myFeed.observe(viewLifecycleOwner){
+
             feedAdapter.submitList(it)
-            Log.d("Success","${it}")
+
         }
 
-        return binding?.root
+
+    }
+
+    fun viewArticle(){
+        findNavController().navigate(R.id.feedToArticleFragment)
     }
 
     override fun onDestroyView() {

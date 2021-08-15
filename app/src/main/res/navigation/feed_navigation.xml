@@ -11,12 +11,19 @@
         android:label="Global Feed"
         tools:layout="@layout/global_feed_fragment">
 
+
+
     </fragment>
 
-    <action
-        android:id="@+id/gotToGlobalFeed"
-        app:destination="@id/nav_gloablFeed"
-        app:popUpTo="@id/feed_navigation"/>
+
+
+
+
+
+<!--    <action-->
+<!--        android:id="@+id/gotToGlobalFeed"-->
+<!--        app:destination="@id/nav_gloablFeed"-->
+<!--        app:popUpTo="@id/feed_navigation"/>-->
 
 
     <fragment
@@ -24,11 +31,10 @@
         android:name="com.example.conduit.ui.Feed.MyFeedFragment"
         android:label="My Feed"
         tools:layout="@layout/my_feed_fragment">
-
     </fragment>
 
-    <action
-        android:id="@+id/gotToMyFeed"
-        app:destination="@+id/nav_myFeed"/>
+
+
+
 
 </navigation>

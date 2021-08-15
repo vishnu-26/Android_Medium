@@ -2,6 +2,7 @@ package com.example.conduit.data
 
 import com.example.api.ConduitClient
 import com.example.api.models.Entities.SigninCredentials
+import com.example.api.models.Entities.User
 import com.example.api.models.Entities.UserCredentials
 import com.example.api.models.Entities.UserUpdateData
 import com.example.api.models.Requests.SignUpRequest
@@ -24,6 +25,12 @@ object AuthRepo {
 
     suspend fun updateProfile(image:String,username: String?,email: String?,bio:String,password: String?):UserResponse?{
         val response = ConduitClient.auth_api.updateCurrentUser(UserUpdateRequest(UserUpdateData(bio,email,image,password,username)))
+        return response.body()
+    }
+
+    suspend fun getCurrentUser(token:String): UserResponse?{
+        ConduitClient.authToken=token
+        val response=ConduitClient.auth_api.getCurrentUser()
         return response.body()
     }
 

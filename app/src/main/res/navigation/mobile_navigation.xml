@@ -9,7 +9,16 @@
         android:id="@+id/nav_feed"
         android:name="com.example.conduit.ui.Feed.FeedFragment"
         android:label="Feed"
-        tools:layout="@layout/feed_fragment" />
+        tools:layout="@layout/feed_fragment" >
+        <action
+            android:id="@+id/feedToArticleFragment"
+            app:destination="@id/articleFragment" >
+
+            <argument
+                android:name="@string/article_id"
+                app:argType="string" />
+        </action>
+    </fragment>
 
     <fragment
     android:id="@+id/nav_auth"
@@ -23,6 +32,16 @@
         android:name="com.example.conduit.ui.Profile.ProfileFragment"
         android:label="Profile"
         tools:layout="@layout/profile_fragment" />
+    <fragment
+        android:id="@+id/nav_logout"
+        android:name="com.example.conduit.ui.Auth.LogoutFragment"
+        android:label="Logout"
+        tools:layout="@layout/logout_fragment"/>
+
+    <fragment
+        android:id="@+id/articleFragment"
+        android:name="com.example.conduit.ui.Article.ArticleFragment"
+        android:label="ArticleFragment" />
 
 
 </navigation>
